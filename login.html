@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PALS Login Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(-45deg, #304FFE, #00BCD4, #1DE9B6, #6200EA);
+      background-size: 400% 400%;
+      animation: gradientMove 15s ease infinite;
+      overflow: hidden;
+      position: relative;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      position: relative;
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      transition: all 1s ease;
+    }
+
+    .login-card {
+      background: rgba(255, 255, 255, 0.452);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      width: 380px;
+      padding: 40px 30px;
+      color: white;
+      transition: transform 1s ease, opacity 1s ease;
+      z-index: 10;
+    }
+
+    .login-card.slide-out {
+      transform: translateX(120%);
+      opacity: 0;
+    }
+
+    .login-card .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .login-card .logo img {
+      width: 65px;
+      margin-bottom: 10px;
+    }
+
+    .login-card h2 {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .login-card input,
+    .login-card select {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.85);
+      color: #000;
+      font-size: 14px;
+    }
+
+    .login-card input::placeholder {
+      color: #555;
+    }
+
+    .login-card button {
+      width: 100%;
+      padding: 12px;
+      background-color: #ffffff;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .login-card button:hover {
+      background-color: #f9a825;
+    }
+
+    .footer-text {
+      text-align: center;
+      font-size: 12px;
+      color: #eee;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 400px) {
+      .login-card {
+        width: 100%;
+        padding: 30px 20px;
+      }
+    }
+
+    select {
+      position: relative;
+      z-index: 10;
+    }
+
+    .content-section {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 1s ease 1s;
+      text-align: center;
+      color: #fff;
+    }
+
+    .content-section.show {
+      opacity: 1;
+    }
+
+    .content-section img {
+      width: 200px;
+      margin-bottom: 20px;
+    }
+
+    .content-section h1 {
+      font-size: 32px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="login-card" id="loginCard">
+      <div class="logo">
+        <img src="./Assets/Images/PALS logo.png" alt="PALS Logo" />
+        <h2>LOGIN TO PALS PORTAL</h2>
+      </div>
+
+      <form id="login-form">
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+
+        <select name="role" required>
+          <option value="" disabled selected>Select Role</option>
+          <option value="PALS PMO">PALS PMO</option>
+          <option value="PALS CHAMPION">PALS CHAMPION</option>
+          <option value="CHAIRMAN">CHAIRMAN</option>
+          <option value="PRINCIPAL">PRINCIPAL</option>
+          <option value="EC MEMBER">EC MEMBER</option>
+          <option value="innoWAH! COORDINATOR">innoWAH! COORDINATOR</option>
+          <option value="PLACEMENT COORDINATOR">PLACEMENT COORDINATOR</option>
+          <option value="EDC COORDINATOR">EDC COORDINATOR</option>
+          <option value="OTHER CONTACT">OTHER CONTACT</option>
+          <option value="STUDENT LEADER">STUDENT LEADER</option>
+        </select>
+
+        <button type="submit">LOG IN</button>
+      </form>
+
+      <div class="footer-text">
+        Need help? Contact
+        <a href="mailto:palspgm@palspgm.com" style="color:#ffcc80;">palspgm@palspgm.com</a>
+      </div>
+    </div>
+
+    <div class="content-section" id="mainContent">
+      <img src="./Assets/Images/PALS logo.png" alt="Welcome Image" />
+      <h1>Welcome to the PALS Portal</h1>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("login-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const data = new FormData(e.target);
+      const email = data.get("email");
+      const password = data.get("password");
+      const role = data.get("role");
+
+      if (!email || !password || !role) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+      // You can add real authentication here
+
+      // Start transition
+      document.getElementById("loginCard").classList.add("slide-out");
+      document.getElementById("mainContent").classList.add("show");
+    });
+  </script>
+  <script>
+  document.getElementById("login-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // Simulated login: no validation
+    window.location.href = "home.html"; // Make sure home.html file exists in the same directory
+  });
+</script>
+
+</body>
+</html>
